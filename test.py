@@ -1,25 +1,15 @@
 from app.rag import read_pdf, create_chunks
 from app.embeddings import create_embedding
-text = read_pdf("documents/JeevithSwarup.pdf")
-
-
-
-
+from app.vector_db import store_embeddings, count, get_all
 
 text = read_pdf("documents/JeevithSwarup.pdf")
 
 chunks = create_chunks(text)
 
-print(f"Total Chunks: {len(chunks)}")
+embeddings = create_embedding(chunks)
 
-for i, chunk in enumerate(chunks):
-    print(f"\n===== Chunk {i+1} =====")
-    print(chunk)
+store_embeddings(chunks, embeddings)
 
+print("Stored:", count())
 
-
-text = "Python is a programming language."
-
-embedding = create_embedding(text)
-
-print(embedding)    
+print(get_all())
