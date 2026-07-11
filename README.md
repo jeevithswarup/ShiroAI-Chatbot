@@ -973,3 +973,423 @@ The core RAG pipeline is complete. Future extensions could include:
 </div>
 
 ---
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+
+<svg
+
+width="1400"
+
+height="800"
+
+viewBox="0 0 1400 800"
+
+xmlns="http://www.w3.org/2000/svg">
+
+
+
+<defs>
+
+
+
+<linearGradient id="bg" x1="0" x2="1">
+
+
+
+<stop offset="0%" stop-color="#050816"/>
+
+
+
+<stop offset="100%" stop-color="#0F172A"/>
+
+
+
+</linearGradient>
+
+
+
+<linearGradient id="titleGradient">
+
+
+
+<stop offset="0%" stop-color="#38BDF8"/>
+
+
+
+<stop offset="100%" stop-color="#06B6D4"/>
+
+
+
+</linearGradient>
+
+
+
+<filter id="glow">
+
+
+
+<feGaussianBlur stdDeviation="4" result="blur"/>
+
+
+
+<feMerge>
+
+
+
+<feMergeNode in="blur"/>
+
+
+
+<feMergeNode in="SourceGraphic"/>
+
+
+
+</feMerge>
+
+
+
+</filter>
+
+
+
+</defs>
+
+
+
+<rect width="1400" height="800" fill="url(#bg)"/>
+
+
+
+<text
+
+x="700"
+
+y="70"
+
+text-anchor="middle"
+
+font-size="34"
+
+font-family="Segoe UI"
+
+font-weight="bold"
+
+fill="url(#titleGradient)"
+
+filter="url(#glow)">
+
+
+
+Retrieval-Augmented Generation Pipeline
+
+
+
+<animate
+
+attributeName="opacity"
+
+values="0.7;1;0.7"
+
+dur="3s"
+
+repeatCount="indefinite"/>
+
+
+
+</text>
+
+<g fill="#38BDF8">
+
+
+
+<circle cx="100" cy="150" r="3">
+
+
+
+<animate attributeName="cy"
+
+values="150;100;150"
+
+dur="5s"
+
+repeatCount="indefinite"/>
+
+
+
+</circle>
+
+
+
+<circle cx="1200" cy="600" r="2">
+
+
+
+<animate attributeName="cy"
+
+values="600;550;600"
+
+dur="7s"
+
+repeatCount="indefinite"/>
+
+
+
+</circle>
+
+
+
+<circle cx="900" cy="300" r="4">
+
+
+
+<animate attributeName="opacity"
+
+values="0.2;1;0.2"
+
+dur="2s"
+
+repeatCount="indefinite"/>
+
+
+
+</circle>
+
+
+
+</g>
+<!-- PDF Upload Card -->
+
+<g id="pdf-card">
+
+  <rect
+      x="60"
+      y="180"
+      width="220"
+      height="270"
+      rx="22"
+      fill="#172554"
+      fill-opacity="0.35"
+      stroke="#38BDF8"
+      stroke-width="2">
+
+      <animate
+      attributeName="stroke-opacity"
+      values="0.3;1;0.3"
+      dur="2s"
+      repeatCount="indefinite"/>
+
+  </rect>
+
+</g>
+<g id="pdf-icon">
+
+<rect
+x="115"
+y="215"
+width="110"
+height="145"
+rx="10"
+fill="#ffffff"/>
+
+<polygon
+points="200,215 225,240 225,215"
+fill="#E5E7EB"/>
+
+<text
+x="170"
+y="300"
+text-anchor="middle"
+font-size="32"
+font-weight="bold"
+font-family="Arial"
+fill="#DC2626">
+
+PDF
+
+</text>
+
+</g>
+<text
+
+x="170"
+
+y="390"
+
+text-anchor="middle"
+
+font-size="20"
+
+font-family="Segoe UI"
+
+fill="white">
+
+Upload PDF
+
+</text>
+<g>
+
+<line
+
+x1="170"
+
+y1="430"
+
+x2="170"
+
+y2="470"
+
+stroke="#38BDF8"
+
+stroke-width="5"
+
+stroke-linecap="round"/>
+
+<polygon
+
+points="160,460 170,480 180,460"
+
+fill="#38BDF8">
+
+<animateTransform
+
+attributeName="transform"
+
+type="translate"
+
+values="0 -8;0 0;0 -8"
+
+dur="1.5s"
+
+repeatCount="indefinite"/>
+
+</polygon>
+
+</g>
+<rect
+
+x="90"
+
+y="500"
+
+width="150"
+
+height="12"
+
+rx="6"
+
+fill="#1E293B"/>
+
+<rect
+
+x="90"
+
+y="500"
+
+width="0"
+
+height="12"
+
+rx="6"
+
+fill="#38BDF8">
+
+<animate
+
+attributeName="width"
+
+values="0;150;0"
+
+dur="4s"
+
+repeatCount="indefinite"/>
+
+</rect>
+<circle
+
+cx="170"
+
+cy="290"
+
+r="80"
+
+fill="#38BDF8"
+
+opacity="0.08">
+
+<animate
+
+attributeName="opacity"
+
+values="0.05;0.15;0.05"
+
+dur="2s"
+
+repeatCount="indefinite"/>
+
+</circle>
+<circle
+
+cx="170"
+
+cy="520"
+
+r="3"
+
+fill="#38BDF8">
+
+<animate
+
+attributeName="cy"
+
+values="520;480;520"
+
+dur="2s"
+
+repeatCount="indefinite"/>
+
+</circle>
+
+<circle
+
+cx="160"
+
+cy="535"
+
+r="2"
+
+fill="#38BDF8">
+
+<animate
+
+attributeName="cy"
+
+values="535;495;535"
+
+dur="2.3s"
+
+repeatCount="indefinite"/>
+
+</circle>
+
+<circle
+
+cx="180"
+
+cy="545"
+
+r="2"
+
+fill="#38BDF8">
+
+<animate
+
+attributeName="cy"
+
+values="545;505;545"
+
+dur="1.9s"
+
+repeatCount="indefinite"/>
+
+</circle>
