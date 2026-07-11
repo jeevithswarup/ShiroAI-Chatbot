@@ -712,33 +712,6 @@ splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 chunks = splitter.split_text(raw_text)
 ```
 
-### 📋 After That — Embeddings
-Convert each text chunk into a numerical vector using Sentence Transformers. Vectors capture *meaning*, not just words — so "car" and "automobile" end up close together in vector space.
-
-### 📋 Then — ChromaDB
-Store all vectors in ChromaDB (a local vector database). At query time, embed the user's question and find the closest matching chunks.
-
-### 📋 Finally — Complete RAG
-Inject retrieved chunks into the prompt and let Ollama generate a grounded, document-aware answer.
-
----
-
-## 📬 Contact
-
-<div align="center">
-
-[![Portfolio](https://img.shields.io/badge/🌐%20Portfolio-0a0e1a?style=for-the-badge)](https://django-portfolio-yd0b.onrender.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0a0e1a?style=for-the-badge&logo=linkedin&logoColor=64FFDA)](https://www.linkedin.com/in/jeevith-swarup-tuta-284607345/)
-[![Gmail](https://img.shields.io/badge/Gmail-0a0e1a?style=for-the-badge&logo=gmail&logoColor=64FFDA)](mailto:jeevithswaruptuta@gmail.com)
-[![GitHub](https://img.shields.io/badge/GitHub-0a0e1a?style=for-the-badge&logo=github&logoColor=64FFDA)](https://github.com/jeevithswarup)
-
-<br/>
-
-**Jeevith Swarup** — Backend Developer | Building local AI infrastructure from scratch.
-
-</div>
-
----
 
 ## 🔗 Phase 3 — RAG Integration (Complete Pipeline)
 
@@ -980,3 +953,23 @@ The core RAG pipeline is complete. Future extensions could include:
 - **Chat history + RAG** — persist both conversation memory and document context simultaneously
 - **Web UI** — a frontend to chat with documents visually
 - **Authentication** — secure the API for multi-user environments
+
+
+---
+
+## 📬 Contact
+
+<div align="center">
+
+[![Portfolio](https://img.shields.io/badge/🌐%20Portfolio-0a0e1a?style=for-the-badge)](https://django-portfolio-yd0b.onrender.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0a0e1a?style=for-the-badge&logo=linkedin&logoColor=64FFDA)](https://www.linkedin.com/in/jeevith-swarup-tuta-284607345/)
+[![Gmail](https://img.shields.io/badge/Gmail-0a0e1a?style=for-the-badge&logo=gmail&logoColor=64FFDA)](mailto:jeevithswaruptuta@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-0a0e1a?style=for-the-badge&logo=github&logoColor=64FFDA)](https://github.com/jeevithswarup)
+
+<br/>
+
+**Jeevith Swarup** — Backend Developer | Building local AI infrastructure from scratch.
+
+</div>
+
+---
