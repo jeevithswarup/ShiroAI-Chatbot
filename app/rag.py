@@ -1,21 +1,22 @@
-from pypdf import PdfReader # type: ignore
-from langchain_text_splitters import RecursiveCharacterTextSplitter #type:ignore
+
+# rag.py
+
+from pypdf import PdfReader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from app.embeddings import create_embedding
+from app.vector_db import collection
 
 
-# Reading the entire text from the PDF -----------------------------------------------------------
+def read_pdf(file_path: str) -> str:
+    reader = PdfReader(file_path)
 
-def read_pdf(file_path:str)->str:
-    reader=PdfReader(file_path)
-
-    text=""
-
+    text = ""
     for page in reader.pages:
-        page_text=page.extract_text()       
+        page_text = page.extract_text()
         if page_text:
             text += page_text + "\n"
 
     return text
-
 
 
 def create_chunks(text: str):
@@ -23,15 +24,19 @@ def create_chunks(text: str):
         chunk_size=500,
         chunk_overlap=100
     )
-    chunks = splitter.split_text(text)
-
-    return chunks
+    return splitter.split_text(text)
 
 
+def index_pdf(file_path: str):
+    text = read_pdf(file_path)
+    chunks = create_chunks(text)
 
+    embeddings = [create_embedding(chunk).tolist() for chunk in chunks]
 
+    collection.add(
+        ids=[str(i) for i in range(len(chunks))],
+        documents=chunks,
+        embeddings=embeddings
+    )
 
-
-
-
-                     
+    print(f"Stored {len(chunks)} chunks.")

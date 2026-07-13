@@ -1,15 +1,11 @@
-from app.rag import read_pdf, create_chunks
-from app.embeddings import create_embedding
-from app.vector_db import store_embeddings, count, get_all
+from app.vector_db import semantic_search
+from app.services import stream_llm
 
-text = read_pdf("documents/JeevithSwarup.pdf")
+question = input("Ask: ")
 
-chunks = create_chunks(text)
+chunks = semantic_search(question)
 
-embeddings = create_embedding(chunks)
+context = "\n\n".join(chunks)
 
-store_embeddings(chunks, embeddings)
-
-print("Stored:", count())
-
-print(get_all())
+for token in stream_llm(question, context):
+    print(token, end="", flush=True)
