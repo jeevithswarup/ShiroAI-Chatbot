@@ -943,6 +943,10 @@ app/
 
 ---
 
+
+<div align="center">
+<img src="assets/rag-animation.svg" width="100%"/>
+</div>
 ## 🗺 What's Next
 
 The core RAG pipeline is complete. Future extensions could include:
