@@ -1,10 +1,6 @@
 import ollama
 from app.vector_db import semantic_search
-
-chat_history = [
-    {
-        "role": "system",
-        "content": """
+SYSTEM_PROMPT = """
 You are a Resume Analysis AI.
 
 Use ONLY the provided context to answer questions.
@@ -22,11 +18,18 @@ If the answer cannot be determined from the resume or your analysis, say you don
 
 Do not make up facts that are not supported by the resume.
 """
+
+conversations = {}
+chat_history = [
+    {
+        "role": "system",
+        "content": SYSTEM_PROMPT
     }
 ]
 
+conversations = {}
 
-def stream_llm(question: str, context: str):
+def stream_llm( conversation_id: str,question: str, context: str):
     messages = chat_history.copy()
 
     messages.append({
@@ -67,7 +70,22 @@ Answer:
     })
 
 
-def chat(question: str):
+def chat(conversation_id: str, question: str):
+
+    if conversation_id not in conversations:
+        conversations[conversation_id] = [
+            {
+                "role": "system",
+                "content": SYSTEM_PROMPT
+            }
+        ]
+
     chunks = semantic_search(question)
+
     context = "\n\n".join(chunks)
-    return stream_llm(question, context)
+
+    return stream_llm(
+        conversation_id,
+        question,
+        context
+    )

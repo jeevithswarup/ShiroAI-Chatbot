@@ -12,10 +12,15 @@ from fastapi.responses import StreamingResponse
 
 app=FastAPI()
 
+from app.services import chat
+
 @app.post("/chat")
 def chat_endpoint(request: ChatRequest):
     return StreamingResponse(
-        chat(request.message),
+        chat(
+            request.conversation_id,
+            request.message
+        ),
         media_type="text/plain"
     )
 
