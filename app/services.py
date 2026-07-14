@@ -25,9 +25,13 @@ Do not make up facts that are not supported by the resume.
     }
 ]
 
-def stream_llm(question: str, context: str):
 
-    prompt = f"""
+def stream_llm(question: str, context: str):
+    messages = chat_history.copy()
+
+    messages.append({
+        "role": "user",
+        "content": f"""
 Context:
 {context}
 
@@ -36,15 +40,11 @@ Question:
 
 Answer:
 """
-
-    chat_history.append({
-        "role": "user",
-        "content": prompt
     })
 
     stream = ollama.chat(
         model="qwen3:4b",
-        messages=chat_history,
+        messages=messages,
         stream=True
     )
 
@@ -55,6 +55,12 @@ Answer:
         answer += text
         yield text
 
+    # Store only the conversation, not the retrieved context
+    chat_history.append({
+        "role": "user",
+        "content": question
+    })
+
     chat_history.append({
         "role": "assistant",
         "content": answer
@@ -63,7 +69,5 @@ Answer:
 
 def chat(question: str):
     chunks = semantic_search(question)
-
     context = "\n\n".join(chunks)
-
     return stream_llm(question, context)
