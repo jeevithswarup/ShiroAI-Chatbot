@@ -1,5 +1,3 @@
-# test_db.py
+from app.database.session_manager import create_session
 
-from app.database.database import conn
-
-print("Database connected!")
+print(create_session())
