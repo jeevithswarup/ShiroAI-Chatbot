@@ -1,11 +1,5 @@
-from app.vector_db import semantic_search
-from app.services import stream_llm
+# test_db.py
 
-question = input("Ask: ")
+from app.database.database import conn
 
-chunks = semantic_search(question)
-
-context = "\n\n".join(chunks)
-
-for token in stream_llm(question, context):
-    print(token, end="", flush=True)
+print("Database connected!")

@@ -1,5 +1,11 @@
 import ollama
+
 from app.vector_db import semantic_search
+from app.chat_manager import (
+    get_messages,
+    save_message,
+)
+
 SYSTEM_PROMPT = """
 You are a Resume Analysis AI.
 
@@ -19,22 +25,35 @@ If the answer cannot be determined from the resume or your analysis, say you don
 Do not make up facts that are not supported by the resume.
 """
 
-conversations = {}
-chat_history = [
-    {
-        "role": "system",
-        "content": SYSTEM_PROMPT
-    }
-]
 
-conversations = {}
+def build_search_query(conversation_id: str, question: str):
+    messages = get_messages(conversation_id)
 
-def stream_llm( conversation_id: str,question: str, context: str):
-    messages = chat_history.copy()
+    history = []
 
-    messages.append({
-        "role": "user",
-        "content": f"""
+    for msg in messages[-4:]:
+        if msg["role"] != "system":
+            history.append(f'{msg["role"]}: {msg["content"]}')
+
+    history.append(f"user: {question}")
+
+    return "\n".join(history)
+
+
+def stream_llm(conversation_id: str, question: str, context: str):
+    # Load previous conversation
+    messages = get_messages(conversation_id)
+
+    # Save current user message to database
+    save_message(conversation_id, "user", question)
+
+    # Messages sent to the LLM
+    llm_messages = messages.copy()
+
+    llm_messages.append(
+        {
+            "role": "user",
+            "content": f"""
 Context:
 {context}
 
@@ -43,12 +62,13 @@ Question:
 
 Answer:
 """
-    })
+        }
+    )
 
     stream = ollama.chat(
         model="qwen3:4b",
-        messages=messages,
-        stream=True
+        messages=llm_messages,
+        stream=True,
     )
 
     answer = ""
@@ -58,34 +78,22 @@ Answer:
         answer += text
         yield text
 
-    # Store only the conversation, not the retrieved context
-    chat_history.append({
-        "role": "user",
-        "content": question
-    })
-
-    chat_history.append({
-        "role": "assistant",
-        "content": answer
-    })
+    # Save assistant reply
+    save_message(conversation_id, "assistant", answer)
 
 
 def chat(conversation_id: str, question: str):
+    search_query = build_search_query(
+        conversation_id,
+        question,
+    )
 
-    if conversation_id not in conversations:
-        conversations[conversation_id] = [
-            {
-                "role": "system",
-                "content": SYSTEM_PROMPT
-            }
-        ]
-
-    chunks = semantic_search(question)
+    chunks = semantic_search(search_query)
 
     context = "\n\n".join(chunks)
 
     return stream_llm(
         conversation_id,
         question,
-        context
+        context,
     )

@@ -6,7 +6,7 @@ from app.vector_db import semantic_search
 from app.schemas import ChatRequest
 from .services import stream_llm ,chat
 from app.schemas import ChatRequest
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse #type: ignore
 
 
 
@@ -23,7 +23,6 @@ def chat_endpoint(request: ChatRequest):
         ),
         media_type="text/plain"
     )
-
 
 
 
