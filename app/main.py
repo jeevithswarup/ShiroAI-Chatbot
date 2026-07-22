@@ -7,8 +7,7 @@ from app.schemas import ChatRequest
 from .services import stream_llm ,chat
 from app.schemas import ChatRequest
 from fastapi.responses import StreamingResponse #type: ignore
-
-
+from app.database.session_manager import create_session
 
 app=FastAPI()
 
@@ -38,3 +37,11 @@ async def upload_pdf(file: UploadFile = File(...)):
     index_pdf(file_path)
 
     return {"message": "PDF indexed successfully"}
+
+@app.post("/new-chat")
+def new_chat():
+    session_id = create_session()
+
+    return {
+        "session_id": session_id
+    }

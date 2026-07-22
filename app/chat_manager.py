@@ -17,8 +17,6 @@ If the answer cannot be determined from the resume or your analysis, say you don
 Do not make up facts that are not supported by the resume.
 """
 
-conversations = {}
-
 
 def get_messages(conversation_id: str):
     if conversation_id not in conversations:
@@ -29,3 +27,15 @@ def get_messages(conversation_id: str):
             }
         ]
     return conversations[conversation_id]
+
+messages = get_messages(session_id)
+
+if not messages:
+    llm_messages = [
+        {
+            "role": "system",
+            "content": SYSTEM_PROMPT
+        }
+    ]
+else:
+    llm_messages = messages

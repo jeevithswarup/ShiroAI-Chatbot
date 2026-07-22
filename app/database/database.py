@@ -7,5 +7,3 @@ conn = psycopg2.connect(
     user="postgres",
     password="Test@123"
 )
-
-cursor = conn.cursor()

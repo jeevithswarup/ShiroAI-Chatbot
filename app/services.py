@@ -1,7 +1,7 @@
 import ollama
 
 from app.vector_db import semantic_search
-from app.chat_manager import (
+from app.database.message_manager import (
     get_messages,
     save_message,
 )
@@ -26,41 +26,57 @@ Do not make up facts that are not supported by the resume.
 """
 
 
-def build_search_query(conversation_id: str, question: str):
-    messages = get_messages(conversation_id)
+def build_search_query(session_id: str, question: str):
+    messages = get_messages(session_id)
 
     history = []
 
     for msg in messages[-4:]:
-        if msg["role"] != "system":
-            history.append(f'{msg["role"]}: {msg["content"]}')
+        history.append(f"{msg['role']}: {msg['content']}")
 
     history.append(f"user: {question}")
 
     return "\n".join(history)
 
 
-def stream_llm(conversation_id: str, question: str, context: str):
+def stream_llm(session_id: str, question: str, context: str):
     # Load previous conversation
-    messages = get_messages(conversation_id)
+    messages = get_messages(session_id)
 
-    # Save current user message to database
-    save_message(conversation_id, "user", question)
+    # Save current user message to the database
+    save_message(session_id, "user", question)
 
     # Messages sent to the LLM
-    llm_messages = messages.copy()
+    llm_messages = [
+        {
+            "role": "system",
+            "content": SYSTEM_PROMPT
+        }
+    ]
 
+    # Add previous conversation history
+    llm_messages.extend(messages)
+
+    # Add the current user message
     llm_messages.append(
         {
             "role": "user",
             "content": f"""
-Context:
+You have two sources of information:
+
+1. Previous conversation history.
+2. Resume context.
+
+Rules:
+- If the user refers to previous messages (for example: "What was my first question?", "What did I ask before?", "Summarize our conversation"), use the conversation history.
+- If the user asks about the resume, use ONLY the resume context.
+- If the answer is not in either the conversation history or the resume context, reply with "I don't know."
+
+Resume Context:
 {context}
 
-Question:
+Current Question:
 {question}
-
-Answer:
 """
         }
     )
@@ -79,12 +95,11 @@ Answer:
         yield text
 
     # Save assistant reply
-    save_message(conversation_id, "assistant", answer)
-
-
-def chat(conversation_id: str, question: str):
+    save_message(session_id, "assistant", answer)
+    
+def chat(session_id: str, question: str):
     search_query = build_search_query(
-        conversation_id,
+        session_id,
         question,
     )
 
@@ -93,7 +108,7 @@ def chat(conversation_id: str, question: str):
     context = "\n\n".join(chunks)
 
     return stream_llm(
-        conversation_id,
+        session_id,
         question,
         context,
     )
