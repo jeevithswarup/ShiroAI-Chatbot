@@ -1,9 +1,18 @@
-from app.database.session_manager import create_session
-from app.database.message_manager import save_message, get_messages
+from sentence_transformers import SentenceTransformer
 
-session = create_session()
+model=SentenceTransformer("all-MiniLM-L6-v2")
 
-save_message(session, "user", "Hello")
-save_message(session, "assistant", "Hi! How can I help you?")
+sentence=[
+      "I love AI",
+    "I enjoy artificial intelligence",
+    "I like pizza",
+    "Machine learning is amazing"
+]
 
-print(get_messages(session))
+embeddings=model.encode(sentence)
+
+for sentence, embedding in zip(sentences, embeddings):
+    print(sentence)
+    print("Dimension:", len(embedding))
+    print("First 10 values:", embedding[:10])
+    print("-" * 50)
